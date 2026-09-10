@@ -9,10 +9,11 @@
 # and RISC-V 64 target architectures.
 #
 # This workflow runs a single job with sequential steps:
-#   1. Format check (cargo fmt)
-#   2. Lint check (cargo clippy)
-#   3. Release build (cargo build --release)
-#   4. Test suite (cargo test --release)
+#   1. Install cross-architecture emulation and ELF inspection tools
+#   2. Format check (cargo fmt)
+#   3. Lint check (cargo clippy)
+#   4. Release build (cargo build --release)
+#   5. Test suite (cargo test --release)
 #
 # The single-job approach avoids redundant compilation across parallel jobs,
 # which is efficient for a zero-dependency project where only std is compiled.
@@ -77,7 +78,24 @@ jobs:
             ${{ runner.os }}-cargo-
 
       # -----------------------------------------------------------------------
-      # Step 4: Format check — fast, catches style issues early
+      # Step 4: Install cross-architecture emulation and ELF inspection tools
+      # -----------------------------------------------------------------------
+      # The test suite executes compiled i686/AArch64/RISC-V64 binaries under
+      # QEMU user-mode emulation and inspects ELF output with readelf/objdump.
+      # These are not preinstalled on the ubuntu-24.04 runner image.
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends \
+            qemu-user \
+            qemu-user-binfmt \
+            binutils \
+            libc6-dev-i386 \
+            libc6-dev-arm64-cross \
+            libc6-dev-riscv64-cross
+
+      # -----------------------------------------------------------------------
+      # Step 5: Format check — fast, catches style issues early
       # -----------------------------------------------------------------------
       # Validates all source files against rustfmt.toml configuration.
       # --check ensures no modifications are made, only verification.
@@ -86,7 +104,7 @@ jobs:
         run: cargo fmt --all -- --check
 
       # -----------------------------------------------------------------------
-      # Step 5: Clippy lint — catches common mistakes and enforces quality
+      # Step 6: Clippy lint — catches common mistakes and enforces quality
       # -----------------------------------------------------------------------
       # -D warnings treats all Clippy warnings as errors for strict quality
       # enforcement. Validates against clippy.toml configuration in repo root.
@@ -94,7 +112,7 @@ jobs:
         run: cargo clippy -- -D warnings
 
       # -----------------------------------------------------------------------
-      # Step 6: Release build — full optimized compilation
+      # Step 7: Release build — full optimized compilation
       # -----------------------------------------------------------------------
       # Produces the bcc binary at target/release/bcc with the release profile
       # settings from Cargo.toml (opt-level=3, lto=thin, codegen-units=1).
@@ -103,7 +121,7 @@ jobs:
         run: cargo build --release
 
       # -----------------------------------------------------------------------
-      # Step 7: Run test suite — all unit and integration tests
+      # Step 8: Run test suite — all unit and integration tests
       # -----------------------------------------------------------------------
       # Executes all tests in release mode, including:
       #   - Unit tests within src/ modules (#[test] functions)
@@ -114,7 +132,7 @@ jobs:
         run: cargo test --release
 
       # -----------------------------------------------------------------------
-      # Step 8: Upload built binary as artifact
+      # Step 9: Upload built binary as artifact
       # -----------------------------------------------------------------------
       # Makes the compiled bcc binary available for downstream workflows
       # (e.g., the checkpoint validation workflow) and manual inspection.
