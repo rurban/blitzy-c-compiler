@@ -921,7 +921,9 @@ impl ArchCodegen for I686Codegen {
                             }
                         }
                         Err(e) => {
-                            eprintln!("i686 encoder warning: {} — emitting UD2 (instr: {:?} operands: {:?})", e, inst.opcode, inst.operands);
+                            if crate::common::verbosity::verbose_enabled() {
+                                eprintln!("i686 encoder warning: {} — emitting UD2 (instr: {:?} operands: {:?})", e, inst.opcode, inst.operands);
+                            }
                             code.push(0x0F);
                             code.push(0x0B);
                         }

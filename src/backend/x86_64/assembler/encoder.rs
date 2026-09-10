@@ -691,10 +691,12 @@ impl X86_64Encoder {
                 // matches the i686 encoder's policy of surfacing errors for
                 // unrecognised opcodes.
                 let result = {
-                    eprintln!(
-                        "[UD2] opcode={} ops={:?} res={:?}",
-                        inst.opcode, inst.operands, inst.result
-                    );
+                    if crate::common::verbosity::verbose_enabled() {
+                        eprintln!(
+                            "[UD2] opcode={} ops={:?} res={:?}",
+                            inst.opcode, inst.operands, inst.result
+                        );
+                    }
                     EncodedInstruction::new(vec![0x0F, 0x0B])
                 };
                 self.current_offset += result.bytes.len();
@@ -881,10 +883,12 @@ impl X86_64Encoder {
                     EncodedInstruction::new(bytes)
                 } else {
                     {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1058,10 +1062,12 @@ impl X86_64Encoder {
                         EncodedInstruction::with_relocations(bytes, vec![reloc])
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1208,10 +1214,12 @@ impl X86_64Encoder {
                         EncodedInstruction::with_relocations(bytes, vec![reloc])
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1298,10 +1306,12 @@ impl X86_64Encoder {
                         EncodedInstruction::new(bytes)
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1341,10 +1351,12 @@ impl X86_64Encoder {
                         EncodedInstruction::new(bytes)
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1384,10 +1396,12 @@ impl X86_64Encoder {
                         EncodedInstruction::new(bytes)
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1493,10 +1507,12 @@ impl X86_64Encoder {
                         EncodedInstruction::new(bytes)
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1541,10 +1557,12 @@ impl X86_64Encoder {
                         EncodedInstruction::new(bytes)
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1605,10 +1623,12 @@ impl X86_64Encoder {
                         EncodedInstruction::new(bytes)
                     }
                     _ => {
-                        eprintln!(
-                            "[UD2] opcode={} ops={:?} res={:?}",
-                            inst.opcode, inst.operands, inst.result
-                        );
+                        if crate::common::verbosity::verbose_enabled() {
+                            eprintln!(
+                                "[UD2] opcode={} ops={:?} res={:?}",
+                                inst.opcode, inst.operands, inst.result
+                            );
+                        }
                         EncodedInstruction::new(vec![0x0F, 0x0B])
                     }
                 }
@@ -1711,15 +1731,19 @@ impl X86_64Encoder {
 
             // Catch-all
             _ => {
-                eprintln!(
-                    "[ENCODER-DEBUG] ud2 from catch-all: opcode={}, operands={:?}, result={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
-                {
+                if crate::common::verbosity::verbose_enabled() {
                     eprintln!(
-                        "[UD2] opcode={} ops={:?} res={:?}",
+                        "[ENCODER-DEBUG] ud2 from catch-all: opcode={}, operands={:?}, result={:?}",
                         inst.opcode, inst.operands, inst.result
                     );
+                }
+                {
+                    if crate::common::verbosity::verbose_enabled() {
+                        eprintln!(
+                            "[UD2] opcode={} ops={:?} res={:?}",
+                            inst.opcode, inst.operands, inst.result
+                        );
+                    }
                     EncodedInstruction::new(vec![0x0F, 0x0B])
                 }
             }
@@ -2091,10 +2115,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2188,10 +2214,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2372,10 +2400,12 @@ impl X86_64Encoder {
                 EncodedInstruction::with_relocations(bytes, vec![reloc])
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2405,10 +2435,12 @@ impl X86_64Encoder {
                 }
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2467,10 +2499,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2526,10 +2560,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2754,10 +2790,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -2840,10 +2878,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3009,10 +3049,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3061,10 +3103,12 @@ impl X86_64Encoder {
                 EncodedInstruction::with_relocations(bytes, vec![reloc])
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3119,10 +3163,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3184,10 +3230,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3252,10 +3300,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3541,10 +3591,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3746,10 +3798,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3800,10 +3854,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3910,10 +3966,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -3997,10 +4055,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -4034,10 +4094,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -4071,10 +4133,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -4106,10 +4170,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }
@@ -4140,10 +4206,12 @@ impl X86_64Encoder {
                 EncodedInstruction::new(bytes)
             }
             _ => {
-                eprintln!(
-                    "[UD2] opcode={} ops={:?} res={:?}",
-                    inst.opcode, inst.operands, inst.result
-                );
+                if crate::common::verbosity::verbose_enabled() {
+                    eprintln!(
+                        "[UD2] opcode={} ops={:?} res={:?}",
+                        inst.opcode, inst.operands, inst.result
+                    );
+                }
                 EncodedInstruction::new(vec![0x0F, 0x0B])
             }
         }

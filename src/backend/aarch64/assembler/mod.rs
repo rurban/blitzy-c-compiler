@@ -896,11 +896,14 @@ impl AArch64Assembler {
                     // Emit a diagnostic warning per AAP §0.7.6: the compiler
                     // MUST NOT silently miscompile unknown extensions.  Log the
                     // unsupported instruction and emit NOP so linking can
-                    // proceed, but the user is informed.
-                    eprintln!(
-                        "bcc: warning: AArch64 inline asm: {}; emitting NOP placeholder for: {}",
-                        msg, expanded
-                    );
+                    // proceed; the note is gated behind --verbose like other
+                    // backend fallback diagnostics.
+                    if crate::common::verbosity::verbose_enabled() {
+                        eprintln!(
+                            "bcc: warning: AArch64 inline asm: {}; emitting NOP placeholder for: {}",
+                            msg, expanded
+                        );
+                    }
                     self.emit_nop();
                 }
             }
