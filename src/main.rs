@@ -81,7 +81,7 @@ const MAX_RECURSION_DEPTH: usize = 512;
 const PROGRAM_NAME: &str = "bcc";
 
 /// Version string for `--version` output.
-const VERSION: &str = "0.1.0";
+const VERSION: &str = "0.1.1";
 
 // ============================================================================
 // CliArgs — parsed command-line arguments
