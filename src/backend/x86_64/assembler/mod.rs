@@ -1247,10 +1247,12 @@ fn assemble_single_x86_64_instruction(line: &str) -> Vec<u8> {
         _ => {
             // Unknown instruction — emit as NOP with a debug warning.
             // This prevents crashes for unsupported inline asm instructions.
-            eprintln!(
-                "[inline-asm] WARNING: unsupported instruction '{}', emitting NOP",
-                line
-            );
+            if crate::common::verbosity::verbose_enabled() {
+                eprintln!(
+                    "[inline-asm] WARNING: unsupported instruction '{}', emitting NOP",
+                    line
+                );
+            }
             vec![0x90]
         }
     }
@@ -1475,10 +1477,12 @@ fn assemble_mov_l(operands: &str) -> Vec<u8> {
         return bytes;
     }
 
-    eprintln!(
-        "[inline-asm] WARNING: unsupported movl operands: {}",
-        operands
-    );
+    if crate::common::verbosity::verbose_enabled() {
+        eprintln!(
+            "[inline-asm] WARNING: unsupported movl operands: {}",
+            operands
+        );
+    }
     vec![0x90]
 }
 
@@ -1577,10 +1581,12 @@ fn assemble_mov_q(operands: &str) -> Vec<u8> {
         return bytes;
     }
 
-    eprintln!(
-        "[inline-asm] WARNING: unsupported movq operands: {}",
-        operands
-    );
+    if crate::common::verbosity::verbose_enabled() {
+        eprintln!(
+            "[inline-asm] WARNING: unsupported movq operands: {}",
+            operands
+        );
+    }
     vec![0x90]
 }
 
@@ -1635,10 +1641,12 @@ fn assemble_alu_l(opcode: u8, operands: &str) -> Vec<u8> {
         return bytes;
     }
 
-    eprintln!(
-        "[inline-asm] WARNING: unsupported ALU operands: {}",
-        operands
-    );
+    if crate::common::verbosity::verbose_enabled() {
+        eprintln!(
+            "[inline-asm] WARNING: unsupported ALU operands: {}",
+            operands
+        );
+    }
     vec![0x90]
 }
 
@@ -1691,10 +1699,12 @@ fn assemble_alu_q(opcode: u8, operands: &str) -> Vec<u8> {
         return bytes;
     }
 
-    eprintln!(
-        "[inline-asm] WARNING: unsupported ALU64 operands: {}",
-        operands
-    );
+    if crate::common::verbosity::verbose_enabled() {
+        eprintln!(
+            "[inline-asm] WARNING: unsupported ALU64 operands: {}",
+            operands
+        );
+    }
     vec![0x90]
 }
 

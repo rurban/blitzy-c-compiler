@@ -964,13 +964,15 @@ pub fn lower_translation_unit(
     }
     let _t0b = _t0.elapsed().as_secs_f64();
 
-    eprintln!(
-        "[BCC-TIMING] ir-pass0-struct-collect: {:.3}s (gather={:.3}s, resolve={:.3}s, {} tags)",
-        _t0b,
-        _t0a,
-        _t0b - _t0a,
-        struct_defs.len()
-    );
+    if crate::common::timing::timing_enabled() {
+        eprintln!(
+            "[BCC-TIMING] ir-pass0-struct-collect: {:.3}s (gather={:.3}s, resolve={:.3}s, {} tags)",
+            _t0b,
+            _t0a,
+            _t0b - _t0a,
+            struct_defs.len()
+        );
+    }
     // Populate the thread-local struct definitions registry so that
     // sizeof/alignof evaluation in global constant expressions can
     // resolve forward-referenced struct/union types.
@@ -1048,10 +1050,12 @@ pub fn lower_translation_unit(
         *m.borrow_mut() = Some(enum_underlying_map);
     });
 
-    eprintln!(
-        "[BCC-TIMING] ir-pass0.5-enums: {:.3}s",
-        _t05.elapsed().as_secs_f64()
-    );
+    if crate::common::timing::timing_enabled() {
+        eprintln!(
+            "[BCC-TIMING] ir-pass0.5-enums: {:.3}s",
+            _t05.elapsed().as_secs_f64()
+        );
+    }
     // ====================================================================
     // Pass 1 — Global declarations, function prototypes, file-scope asm
     // ====================================================================
@@ -1119,10 +1123,12 @@ pub fn lower_translation_unit(
         }
     }
 
-    eprintln!(
-        "[BCC-TIMING] ir-pass1-globals: {:.3}s",
-        _t1.elapsed().as_secs_f64()
-    );
+    if crate::common::timing::timing_enabled() {
+        eprintln!(
+            "[BCC-TIMING] ir-pass1-globals: {:.3}s",
+            _t1.elapsed().as_secs_f64()
+        );
+    }
     // Seed TYPEOF_CONTEXT with global variable types so that
     // `typeof(global_var)` resolves correctly inside function bodies.
     TYPEOF_CONTEXT.with(|ctx| {
@@ -1204,7 +1210,9 @@ pub fn lower_translation_unit(
                     extract_name_dd(&func_def.declarator.direct, name_table)
                         .unwrap_or_else(|| "<anon>".to_string())
                 };
-                eprintln!("[BCC-TIMING] slow fn: {} = {:.3}s", fname, _fn_elapsed);
+                if crate::common::timing::timing_enabled() {
+                    eprintln!("[BCC-TIMING] slow fn: {} = {:.3}s", fname, _fn_elapsed);
+                }
                 _fn_slow_count += 1;
             }
 
@@ -1213,12 +1221,14 @@ pub fn lower_translation_unit(
             // but the final result will reflect the error state.
         }
     }
-    eprintln!(
-        "[BCC-TIMING] ir-pass2-functions: {} fns in {:.3}s ({} slow)",
-        _fn_count,
-        _t2.elapsed().as_secs_f64(),
-        _fn_slow_count
-    );
+    if crate::common::timing::timing_enabled() {
+        eprintln!(
+            "[BCC-TIMING] ir-pass2-functions: {} fns in {:.3}s ({} slow)",
+            _fn_count,
+            _t2.elapsed().as_secs_f64(),
+            _fn_slow_count
+        );
+    }
 
     // Drain anonymous compound literal / string globals created during Pass 2
     // function lowering (e.g. static locals with string-pointer initializers

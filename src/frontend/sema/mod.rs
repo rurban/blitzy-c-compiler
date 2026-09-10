@@ -300,17 +300,21 @@ impl<'a> SemanticAnalyzer<'a> {
                     crate::frontend::parser::ast::ExternalDeclaration::AsmStatement(_) => "Asm",
                     crate::frontend::parser::ast::ExternalDeclaration::Empty => "Empty",
                 };
-                eprintln!(
-                    "[BCC-TIMING] sema-slow: decl #{} ({}) took {:.3}s",
-                    sema_count, kind, elapsed
-                );
+                if crate::common::timing::timing_enabled() {
+                    eprintln!(
+                        "[BCC-TIMING] sema-slow: decl #{} ({}) took {:.3}s",
+                        sema_count, kind, elapsed
+                    );
+                }
             }
         }
-        eprintln!(
-            "[BCC-TIMING] sema-analyze: {} decls in {:.3}s",
-            sema_count,
-            sema_t0.elapsed().as_secs_f64()
-        );
+        if crate::common::timing::timing_enabled() {
+            eprintln!(
+                "[BCC-TIMING] sema-analyze: {} decls in {:.3}s",
+                sema_count,
+                sema_t0.elapsed().as_secs_f64()
+            );
+        }
 
         // Note: tentative definition finalization and unused symbol checks
         // are performed in `finalize()`, which is called separately after

@@ -162,6 +162,8 @@ struct CliArgs {
     nostdinc: bool,
     /// `--verbose`: enable verbose compilation debugging output.
     verbose: bool,
+    /// `-time`: enable `[BCC-TIMING]` phase-timing diagnostics on stderr.
+    time: bool,
     /// `-march=<value>`: architecture string to pass through to the external
     /// assembler for `.S` files (e.g. `rv64imafdc`).
     march: Option<String>,
@@ -197,6 +199,7 @@ impl Default for CliArgs {
             depfile_phony: false,
             nostdinc: false,
             verbose: false,
+            time: false,
             march: None,
             mabi: None,
         }
@@ -627,6 +630,13 @@ fn parse_args(args: &[String]) -> Result<CliArgs, String> {
             continue;
         }
 
+        // -time — enable [BCC-TIMING] phase-timing diagnostics on stderr
+        if arg == "-time" {
+            cli.time = true;
+            i += 1;
+            continue;
+        }
+
         // -nostdinc — suppress default system include paths
         if arg == "-nostdinc" {
             cli.nostdinc = true;
@@ -871,6 +881,7 @@ fn print_usage() {
     eprintln!("  -D<macro>[=value]   Define preprocessor macro");
     eprintln!("  -L<dir>             Add library search path");
     eprintln!("  -l<lib>             Link library");
+    eprintln!("  -time               Print [BCC-TIMING] phase-timing diagnostics to stderr");
     eprintln!("  --version           Print version information and exit");
     eprintln!("  --help              Print this help message and exit");
 }
@@ -1851,7 +1862,9 @@ fn compile_single_file(
     let mut parser = Parser::new(lexer, ctx.target);
     let mut translation_unit = parser.parse();
     let t_parse_elapsed = t_parse_start.elapsed();
-    eprintln!("[BCC-TIMING] parse: {:.3}s", t_parse_elapsed.as_secs_f64());
+    if bcc::common::timing::timing_enabled() {
+        eprintln!("[BCC-TIMING] parse: {:.3}s", t_parse_elapsed.as_secs_f64());
+    }
 
     // Check for parse errors
     if diagnostics.has_errors() {
@@ -1876,7 +1889,9 @@ fn compile_single_file(
         analyze_result.is_ok() && finalize_result.is_ok()
     };
     let t_sema_elapsed = t_sema_start.elapsed();
-    eprintln!("[BCC-TIMING] sema: {:.3}s", t_sema_elapsed.as_secs_f64());
+    if bcc::common::timing::timing_enabled() {
+        eprintln!("[BCC-TIMING] sema: {:.3}s", t_sema_elapsed.as_secs_f64());
+    }
     // `sema` is now dropped — mutable borrow of `diagnostics` is released.
 
     if !sema_ok || diagnostics.has_errors() {
@@ -1909,10 +1924,12 @@ fn compile_single_file(
         format!("IR lowering failed for '{}': {}", input, e)
     })?;
     let t_ir_elapsed = t_ir_start.elapsed();
-    eprintln!(
-        "[BCC-TIMING] ir-lowering: {:.3}s",
-        t_ir_elapsed.as_secs_f64()
-    );
+    if bcc::common::timing::timing_enabled() {
+        eprintln!(
+            "[BCC-TIMING] ir-lowering: {:.3}s",
+            t_ir_elapsed.as_secs_f64()
+        );
+    }
 
     if diagnostics.has_errors() {
         diagnostics.print_all(&source_map);
@@ -2034,10 +2051,12 @@ fn compile_single_file(
             format!("code generation failed for '{}': {}", input, e)
         })?;
     let t_codegen_elapsed = t_codegen_start.elapsed();
-    eprintln!(
-        "[BCC-TIMING] codegen: {:.3}s",
-        t_codegen_elapsed.as_secs_f64()
-    );
+    if bcc::common::timing::timing_enabled() {
+        eprintln!(
+            "[BCC-TIMING] codegen: {:.3}s",
+            t_codegen_elapsed.as_secs_f64()
+        );
+    }
 
     if diagnostics.has_errors() {
         diagnostics.print_all(&source_map);
@@ -2573,6 +2592,12 @@ fn main() {
             process::exit(1);
         }
     };
+
+    // Propagate `-time` / `--verbose` to their process-wide flags. These
+    // are plain `AtomicBool`s (not thread-local) because compilation runs
+    // on the dedicated worker thread spawned below.
+    bcc::common::timing::set_timing_enabled(cli_args.time);
+    bcc::common::verbosity::set_verbose_enabled(cli_args.verbose);
 
     // Spawn the worker thread with 64 MiB stack for compilation work.
     // The main thread only spawns this worker and waits for its result.

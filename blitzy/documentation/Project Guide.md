@@ -471,7 +471,7 @@ grep -A5 '\[dependencies\]' Cargo.toml
 | `stack overflow` during compilation | Deeply nested macros exceeding stack | Ensure `RUST_MIN_STACK=67108864` is set (configured in `.cargo/config.toml`) |
 | `qemu-aarch64: not found` | QEMU user-mode not installed | `sudo apt-get install qemu-user` |
 | Tests filtered out (0 run) | Wrong test filter syntax | Use `--test <test_name>` not `-- <filter>` for integration tests |
-| `BCC-TIMING` lines in output | Normal diagnostic output | These are timing traces; ignore in production use |
+| `BCC-TIMING` lines in output | `-time` flag passed on the command line | These are timing traces, opt-in via `-time` (debug and release); omit `-time` to silence |
 | Large file compilation timeout | O(n²) IR lowering on files with >7000 declarations | Known limitation; will be optimized in future work |
 
 ---

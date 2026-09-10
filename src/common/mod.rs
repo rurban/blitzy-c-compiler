@@ -28,6 +28,14 @@ pub mod long_double;
 /// automatically cleaned up when the owning handle is dropped.
 pub mod temp_files;
 
+/// Global `-time` diagnostics flag — controls whether `[BCC-TIMING]`
+/// phase-timing traces are printed to stderr.
+pub mod timing;
+
+/// Global `--verbose` diagnostics flag — controls whether backend notes
+/// (e.g. `[inline-asm]` warnings) are printed to stderr.
+pub mod verbosity;
+
 // ---------------------------------------------------------------------------
 // Type system
 // ---------------------------------------------------------------------------
